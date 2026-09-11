@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="کهاته سلطان">
+<meta name="theme-color" content="#8B0000">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="manifest" href="manifest.json">
+<title>دفتر کهاته سلطان</title>
+<style>
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root{--primary:#8B0000;--bg:#ede7df;--card:#fcf9f5;--border:#b8a898;--green:#15803d;--blue:#1a56db;--red:#b91c1c}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Tahoma,sans-serif;margin:0;padding:0}
+body{background:var(--bg);padding:10px;font-size:14px;color:#333;max-width:480px;margin:0 auto}
+.header{background:var(--primary);color:#fff;padding:12px;text-align:center;border-radius:10px;font-size:20px;font-weight:bold;border:2px solid #5a0000}
+.brand-header{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;text-align:center;padding:8px 12px}
+.brand-logo{width:60px;height:32px;flex:0 0 32px;display:flex;align-items:center;justify-content:center}
+.brand-logo svg{width:54px;height:31px;display:block}
+.brand-copy{display:flex;flex-direction:column;gap:2px}
+.brand-name{font-size:20px;line-height:1.2}
+.brand-subtitle{font-size:10px;font-weight:normal;color:#ffe9a3;line-height:1.2}
+.page-title{text-align:center;color:var(--primary);font-weight:bold;margin:10px 0 5px;font-size:17px}
+.backup-bar{display:flex;gap:5px;margin-bottom:8px;flex-wrap:wrap}
+.backup-btn{flex:1;min-width:65px;background:#4a3728;color:#fff;border:0;padding:8px 4px;border-radius:6px;font-size:10px;font-weight:bold;cursor:pointer}
+.backup-btn:active{opacity:.8}
+.backup-btn.blue{background:#0d6efd}
+.backup-btn.green{background:#198754}
+.backup-btn.purple{background:#6f42c1}
+.backup-btn.orange{background:#e67e22}
+.search{width:100%;height:42px;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-size:15px;background:#fff;margin-bottom:8px}
+.search:focus{outline:2px solid var(--primary)}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:8px 0}
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:8px;text-align:center;padding:6px 2px}
+.card .label{font-size:11px;font-weight:bold;color:#555}
+.card .value{display:block;font-size:12px;font-weight:bold;margin-top:4px;line-height:1.3}
+.card.green .label,.card.green .value{color:var(--green)}
+.card.blue .label,.card.blue .value{color:var(--blue)}
+.card.red .label,.card.red .value{color:var(--red)}
+.table-wrapper{overflow-x:auto;background:var(--card);border:1.5px solid var(--border);border-radius:8px}
+table.custom-table{width:100%;border-collapse:collapse;min-width:600px}
+table.custom-table th,table.custom-table td{border:1px solid var(--border);padding:8px 4px;text-align:center;font-size:12px;vertical-align:middle}
+table.custom-table th{background:#dcd0c0;color:#4a3728;font-weight:bold;white-space:nowrap}
+table.custom-table tbody tr{cursor:pointer}
+table.custom-table tbody tr:active{background:#f0e8dd}
+.cell-phone{color:#000;font-weight:bold;direction:ltr}
+.cell-receipt{color:var(--green);font-weight:bold}
+.cell-debt{color:var(--blue);font-weight:bold}
+.cell-remaining{color:var(--red);font-weight:bold}
+.fab{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);width:56px;height:56px;border:2px solid #fff;border-radius:50%;background:var(--primary);color:#fff;font-size:30px;z-index:100;cursor:pointer;box-shadow:0 4px 12px rgba(139,0,0,.4)}
+.fab:active{transform:translateX(-50%) scale(.95)}
+.detail{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;overflow:auto;padding:8px}
+.detail.active{display:block}
+.dh{background:var(--primary);color:#fff;padding:8px;border-radius:8px;display:flex;align-items:center;margin-bottom:8px;border:1px solid #5a0000}
+.dh button{background:0;border:0;color:#fff;font-size:24px;width:40px;height:40px;cursor:pointer;border-radius:6px}
+.dh button:active{background:rgba(255,255,255,.2)}
+.dh span{flex:1;text-align:center;font-weight:bold;font-size:16px}
+.info{background:var(--card);border:1.5px solid var(--border);border-radius:8px;padding:8px;margin:8px 0}
+.info-item{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #d8ccbc;font-size:13px}
+.info-item:last-child{border-bottom:0}
+.info-item .label{font-weight:bold;color:#4a3728}
+.info-item .phone-val{color:#000;font-weight:bold;direction:ltr}
+.balance{background:var(--card);border:1.5px solid var(--border);border-radius:8px;padding:8px;margin:8px 0;text-align:center;font-weight:bold;font-size:14px;color:var(--primary)}
+.actions{display:flex;gap:5px;margin:8px 0 80px}
+.actions button{flex:1;border:0;border-radius:8px;color:#fff;padding:12px;font-weight:bold;cursor:pointer;font-size:13px}
+.actions button:active{transform:scale(.98)}
+.btn-receipt{background:var(--green)}
+.btn-debt{background:var(--blue)}
+.modalbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;align-items:center;justify-content:center;padding:12px}
+.modalbg.active{display:flex}
+.modal{background:var(--card);width:100%;max-width:400px;border-radius:12px;padding:16px;max-height:90vh;overflow:auto;border:2px solid var(--border)}
+.modal h3{text-align:center;color:var(--primary);margin:0 0 10px;font-size:16px;border-bottom:1.5px solid #dcd0c0;padding-bottom:6px}
+.modal label{display:block;font-weight:bold;margin-top:8px;font-size:12px}
+.modal input,.modal select{width:100%;height:40px;border:1.5px solid #a39382;border-radius:6px;padding:6px 10px;font-size:14px;margin:3px 0;background:#fff}
+.modal input:focus,.modal select:focus{outline:2px solid var(--primary)}
+.buttons{display:flex;gap:5px;margin-top:12px}
+.buttons button{flex:1;min-height:40px;border:0;border-radius:6px;font-weight:bold;cursor:pointer;font-size:13px}
+.cancel{background:#e5e7eb;color:#333;border:1px solid #ccc}
+.confirm{background:var(--primary);color:#fff}
+.confirm.blue{background:var(--blue)}
+.confirm.green{background:var(--green)}
+.confirm.red{background:var(--red)}
+.toast{display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:6px;z-index:9999;font-size:12px;text-align:center}
+.toast.show{display:block}
+.toast.error{background:var(--red)}
+.toast.success{background:var(--green)}
+.section-divider{border-top:2px dashed var(--border);margin:10px 0 4px;padding-top:6px;font-weight:bold;color:var(--primary);font-size:12px}
+button{touch-action:manipulation}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.empty-state{padding:24px 12px!important;color:#777;font-size:13px}
+
+/* ===== چت هوش مصنوعی ===== */
+.chat-fab{position:fixed;bottom:20px;right:20px;width:52px;height:52px;border:2px solid #fff;border-radius:50%;background:#2b6cb0;color:#fff;font-size:24px;z-index:100;cursor:pointer;box-shadow:0 4px 12px rgba(43,108,176,.4);display:flex;align-items:center;justify-content:center}
+.chat-fab:active{transform:scale(.95)}
+.chat-panel{display:none;position:fixed;inset:0;background:var(--bg);z-index:300;flex-direction:column}
+.chat-panel.active{display:flex}
+.chat-header{background:#2b6cb0;color:#fff;padding:8px;border-radius:8px;display:flex;align-items:center;margin:8px;border:1px solid #1e4e7f}
+.chat-header button{background:0;border:0;color:#fff;font-size:24px;width:40px;height:40px;cursor:pointer;border-radius:6px}
+.chat-header button:active{background:rgba(255,255,255,.2)}
+.chat-header span{flex:1;text-align:center;font-weight:bold;font-size:16px}
+.chat-messages{flex:1;overflow-y:auto;padding:0 10px;display:flex;flex-direction:column;gap:8px}
+.chat-msg{max-width:85%;padding:8px 12px;border-radius:12px;font-size:13px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word}
+.chat-msg.user{align-self:flex-end;background:#2b6cb0;color:#fff;border-bottom-left-radius:2px}
+.chat-msg.assistant{align-self:flex-start;background:var(--card);border:1px solid var(--border);color:#333;border-bottom-right-radius:2px}
+.chat-msg.error{align-self:center;background:#fdecea;color:var(--red);border:1px solid #f5c2c0;font-size:12px}
+.chat-msg.thinking{align-self:flex-start;background:var(--card);border:1px solid var(--border);color:#888;font-style:italic}
+.chat-msg.tool{align-self:flex-start;background:#eef2ff;border:1px dashed #94a3b8;color:#475569;font-size:12px}
+.chat-inputbar{display:flex;gap:6px;padding:8px;background:var(--card);border-top:1.5px solid var(--border)}
+.chat-inputbar textarea{flex:1;resize:none;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:14px;min-height:42px;max-height:100px;font-family:inherit}
+.chat-inputbar textarea:focus{outline:2px solid #2b6cb0}
+.chat-send{width:48px;border:0;border-radius:8px;background:#2b6cb0;color:#fff;font-size:20px;cursor:pointer}
+.chat-send:disabled{opacity:.5}
+.chat-clear{background:0;border:0;color:#fff;font-size:13px;text-decoration:underline;cursor:pointer}
+.chat-empty{color:#888;font-size:13px;text-align:center;padding:30px 12px}
+
+/* ===== قفل برنامه ===== */
+.lock-screen{position:fixed;inset:0;background:var(--primary);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px}
+.lock-screen.hidden{display:none}
+.lock-box{background:var(--card);color:#333;border-radius:12px;padding:22px 18px;width:100%;max-width:320px;text-align:center;border:2px solid #5a0000}
+.lock-box h2{color:var(--primary);margin-bottom:6px;font-size:18px}
+.lock-box p{font-size:12px;color:#666;margin-bottom:8px}
+.lock-box input{width:100%;height:46px;border:1.5px solid var(--border);border-radius:8px;text-align:center;font-size:22px;letter-spacing:8px;margin:6px 0;direction:ltr}
+.lock-box input:focus{outline:2px solid var(--primary)}
+.lock-box button{width:100%;height:44px;border:0;border-radius:8px;background:var(--primary);color:#fff;font-weight:bold;font-size:15px;cursor:pointer;margin-top:8px}
+.lock-msg{font-size:12px;color:var(--red);min-height:16px;margin-top:4px}
+.lock-sub{font-size:12px;color:#777;margin-top:14px}
+.lock-sub a{color:var(--blue);cursor:pointer;text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="header brand-header">
+  <div class="brand-logo" aria-label="تاج سلطان">
+    <svg viewBox="0 0 120 70" role="img" aria-hidden="true">
+      <path d="M12 17l20 18 18-27 10 27 18-27 20 27 10-18 7 39H5z" fill="#e5b84b" stroke="#fff4d6" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="12" cy="17" r="5" fill="#fff4d6"/><circle cx="50" cy="8" r="5" fill="#fff4d6"/><circle cx="78" cy="8" r="5" fill="#fff4d6"/><circle cx="108" cy="17" r="5" fill="#fff4d6"/>
+      <path d="M12 56h96" stroke="#fff4d6" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="brand-copy">
+    <div class="brand-name">دفتر کهاته سلطان</div>
+    <div class="brand-subtitle">مدیریت حساب‌ها</div>
+  </div>
+</div>
+<div class="page-title">لیست تمام حساب‌ها</div>
+
+<div class="backup-bar">
+  <button type="button" class="backup-btn" data-action="backup">📥 بکاپ</button>
+  <button type="button" class="backup-btn purple" data-action="koder">📁 Koder</button>
+  <button type="button" class="backup-btn blue" data-action="drive">💾 Drive</button>
+  <button type="button" class="backup-btn green" data-action="import">📤 بازیابی</button>
+  <button type="button" class="backup-btn orange" data-action="data">👁️ دیتا</button>
+  <button type="button" class="backup-btn" style="background:#5a0000;" data-action="lock">🔒 قفل</button>
+  <button type="button" class="backup-btn" style="background:#7a5c00;" data-action="changepin">🔑 رمز</button>
+  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
+</div>
+
+<input id="search" class="search" placeholder="جستجو در نام، شماره، آدرس، تاریخ، مبلغ و شرح..." oninput="render()">
+
+<div id="summary" class="summary"></div>
+
+<div class="table-wrapper">
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th style="width:40px;">#</th>
+        <th>اسم حساب</th>
+        <th style="width:100px;">تلفن</th>
+        <th style="width:40px;">صفحه</th>
+        <th class="cell-receipt">رسید</th>
+        <th class="cell-debt">قرض</th>
+        <th class="cell-remaining">باقی</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+</div>
+
+<button class="fab" onclick="addDebtor()">+</button>
+
+<div id="detail" class="detail">
+  <div class="dh">
+    <button onclick="closeDetail()">‹</button>
+    <span id="title">صورت حساب</span>
+    <button onclick="editInfo()">✎</button>
+  </div>
+  <div id="detailBody"></div>
+</div>
+
+<button class="chat-fab" onclick="openChat()" aria-label="دستیار هوش مصنوعی">🤖</button>
+
+<div id="chatPanel" class="chat-panel">
+  <div class="chat-header">
+    <button onclick="closeChat()">‹</button>
+    <span>دستیار هوش مصنوعی</span>
+    <button onclick="promptForApiKey()" style="font-size:17px;width:34px;" aria-label="تنظیمات کلید API">⚙️</button>
+    <button class="chat-clear" onclick="clearChat()" style="font-size:11px;width:auto;padding:0 6px;">پاک کردن</button>
+  </div>
+  <div id="chatMessages" class="chat-messages"></div>
+  <div class="chat-inputbar">
+    <textarea id="chatInput" placeholder="سوال یا پیام خود را بنویسید..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMessage();}"></textarea>
+    <button id="chatSendBtn" class="chat-send" onclick="sendChatMessage()">➤</button>
+  </div>
+</div>
+
+<div id="modalbg" class="modalbg" onclick="if(event.target===this)closeModal()">
+  <div id="modal" class="modal"></div>
+</div>
+<div id="toast" class="toast"></div>
+
+<div id="lockScreen" class="lock-screen hidden">
+  <div class="lock-box" id="lockBox"></div>
+</div>
+
+<script>
+// ========================== داده ==========================
+var debtors = [];
+var current = null;
+
+function $(id){return document.getElementById(id);}
+function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function num(n){return (Number(n)||0).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2});}
+function normalizeDigits(v){
+  return String(v==null?'':v).replace(/[۰-۹]/g,function(d){return String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d));});
+}
+function amount(v){
+  var s=normalizeDigits(v).replace(/,/g,'').trim();
+  if(!/^\d+(?:\.\d{1,2})?$/.test(s))return NaN;
+  var n=Number(s);
+  return isFinite(n)&&n>0?n:NaN;
+}
+function storedAmount(v){
+  var n=Number(normalizeDigits(v).replace(/,/g,''));
+  return isFinite(n)&&n>0?n:0;
+}
+function sanitizeAmountInput(el){
+  var v=normalizeDigits(el.value).replace(/,/g,'').replace(/[^\d.]/g,'');
+  var dot=v.indexOf('.');
+  if(dot!==-1)v=v.slice(0,dot+1)+v.slice(dot+1).replace(/\./g,'').slice(0,2);
+  el.value=v;
+}
+function normalizeNumberInput(el){
+  el.value=normalizeDigits(el.value).replace(/[^\d+]/g,'');
+}
+function normalizeDateInput(el){
+  el.value=normalizeDigits(el.value).replace(/[^\d\/.-]/g,'').replace(/-/g,'/');
+}
+// FIX #2: normalize a date string to YYYY/MM/DD with zero-padded month/day
+// so that string-based sorting and comparison give the correct chronological order.
+function normalizeDateValue(v){
+  var s=normalizeDigits(v||'').trim().replace(/-/g,'/').replace(/\./g,'/');
+  var parts=s.split('/').filter(function(p){return p!=='';});
+  if(parts.length!==3)return s; // leave malformed input as-is rather than guessing
+  var y=parts[0],m=parts[1],d=parts[2];
+  if(y.length<4 && parts[2].length===4){ // handle DD/MM/YYYY typed order just in case
+    var tmp=y; y=d; d=tmp;
+  }
+  m=m.padStart(2,'0');
+  d=d.padStart(2,'0');
+  return y+'/'+m+'/'+d;
+}
+function normalizeData(input){
+  var list=Array.isArray(input)?input:(input&&Array.isArray(input.debtors)?input.debtors:null);
+  if(!list)return null;
+  return list.map(function(raw,i){
+    raw=raw&&typeof raw==='object'?raw:{};
+    var d={
+      id:raw.id!==undefined&&raw.id!==null&&String(raw.id)!==''?raw.id:Date.now()+i,
+      name:String(raw.name||'').trim()||('حساب '+(i+1)),
+      phone:String(raw.phone||'').trim(),
+      address:String(raw.address||'').trim(),
+      transactions:[]
+    };
+    var txs=Array.isArray(raw.transactions)?raw.transactions:[];
+    d.transactions=txs.map(function(tx,j){
+      tx=tx&&typeof tx==='object'?tx:{};
+      var oldReceipt=tx.receipt===undefined?tx.debt:tx.receipt;
+      var oldDebt=tx.debtVal===undefined?tx.paid:tx.debtVal;
+      var receipt=storedAmount(oldReceipt),debtVal=storedAmount(oldDebt);
+      return {
+        id:tx.id!==undefined&&tx.id!==null&&String(tx.id)!==''?tx.id:Date.now()+100000+i*1000+j,
+        date:normalizeDateValue(String(tx.date||'').trim()||today()),
+        currency:tx.currency==='USD'?'USD':'AFN',
+        details:String(tx.details||'').trim()||(receipt?'رسید':'قرض'),
+        receipt:receipt,
+        debtVal:debtVal,
+        page:String(tx.page||'').trim()
+      };
+    });
+    return d;
+  });
+}
+
+function today(){
+  try{
+    var d=new Date(), f=new Intl.DateTimeFormat('fa-IR-u-ca-persian',{year:'numeric',month:'2-digit',day:'2-digit'});
+    var p=f.formatToParts(d), y='',m='',day='';
+    for(var i=0;i<p.length;i++){if(p[i].type==='year')y=p[i].value;if(p[i].type==='month')m=p[i].value;if(p[i].type==='day')day=p[i].value;}
+    var toEn=function(s){var map={'۰':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};return s.replace(/[۰-۹]/g,function(d){return map[d];});};
+    return toEn(y)+'/'+toEn(m).padStart(2,'0')+'/'+toEn(day).padStart(2,'0');
+  }catch(e){var d=new Date();return d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');}
+}
+
+function getTotals(d){
+  var aR=0,aD=0,uR=0,uD=0;
+  if(d.transactions)for(var i=0;i<d.transactions.length;i++){
+    var t=d.transactions[i], c=t.currency||'AFN', r=+t.receipt||+t.debt||0, deb=+t.debtVal||+t.paid||0;
+    if(c==='AFN'){aR+=r;aD+=deb;}else{uR+=r;uD+=deb;}
+  }
+  return {afnR:aR,afnD:aD,usdR:uR,usdD:uD,afnRem:aR-aD,usdRem:uR-uD};
+}
+
+function fmt(a,u){var p=[];if(a!==0)p.push(num(a)+' AFN');if(u!==0)p.push(num(u)+' USD');return p.length?p.join('<br>'):'0 AFN';}
+
+function save(){try{localStorage.setItem('khatabook_data',JSON.stringify({version:'2.7',debtors:debtors,savedAt:new Date().toISOString()}));}catch(e){toast('ذخیره‌سازی مرورگر در دسترس نیست','error');}}
+
+function load(){
+  try{
+    var x=localStorage.getItem('khatabook_data');
+    if(x){var normalized=normalizeData(JSON.parse(x));debtors=normalized||[];save();}else{debtors=[];save();}
+  }catch(e){debtors=[];save();}
+}
+
+// ========================== بکاپ ==========================
+function exportBackup(){
+  if(!debtors.length){toast('داده‌ای نیست','error');return;}
+  downloadBackup('✅ بکاپ ذخیره شد');
+}
+
+function saveToKoder(){
+  if(!debtors.length){toast('داده‌ای نیست','error');return;}
+  downloadBackup('✅ از Share، گزینه Koder یا Save to Files را انتخاب کن');
+}
+
+function saveToDrive(){
+  if(!debtors.length){toast('داده‌ای نیست','error');return;}
+  downloadBackup('✅ از Share، گزینه Drive یا Save to Files را انتخاب کن');
+}
+
+function downloadBackup(message){
+  var data={version:'2.7',debtors:debtors,savedAt:new Date().toISOString()};
+  var json=JSON.stringify(data,null,2),filename='backup-khata-sultan.json';
+  var blob=new Blob([json],{type:'application/json;charset=utf-8'});
+  var shareFile=null;
+  try{shareFile=new File([json],filename,{type:'application/json'});}catch(e){}
+  if(shareFile&&navigator.share&&navigator.canShare){
+    try{
+      if(navigator.canShare({files:[shareFile]})){
+        navigator.share({files:[shareFile],title:'بکاپ دفتر حساب سلطان',text:'فایل بکاپ دفتر حساب'})
+          .then(function(){toast(message,'success');})
+          .catch(function(err){if(!err||err.name!=='AbortError')fallbackDownload(blob,filename,message);});
+        return;
+      }
+    }catch(e){}
+  }
+  fallbackDownload(blob,filename,message);
+}
+
+function fallbackDownload(blob,filename,message){
+  var url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=filename;a.rel='noopener';
+  a.style.display='none';document.body.appendChild(a);
+  try{a.click();}catch(e){toast('از منوی Share یا Save to Files استفاده کن','error');}
+  document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},1500);
+  toast(message,'success');
+}
+
+function triggerImport(){$('importFile').click();}
+
+function importBackup(e){
+  var file=e.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      var normalized=normalizeData(JSON.parse(ev.target.result));
+      if(normalized){debtors=normalized;save();current=null;$('detail').classList.remove('active');render();toast('✅ بازیابی شد','success');}
+      else toast('فرمت نامعتبر','error');
+    }catch(err){toast('فایل JSON نامعتبر است','error');}
+  };
+  reader.readAsText(file);e.target.value='';
+}
+
+// FIX #1: viewData() previously injected raw JSON into innerHTML via a <pre> tag.
+// If any stored field (name, details, address, etc.) contained HTML like
+// <img src=x onerror=...>, it would execute when this view was opened.
+// Now the JSON text is escaped before insertion, and the element is built
+// with textContent for the data itself instead of raw innerHTML interpolation.
+function viewData(){
+  try{
+    var data=localStorage.getItem('khatabook_data');
+    if(data){
+      var p=JSON.parse(data);
+      var count=p.debtors?p.debtors.length:0;
+      var jsonText=JSON.stringify(p,null,2);
+      var h='<h3>📊 دیتا</h3><p>تعداد حساب: '+count+'</p>'+
+            '<pre id="dataDump" style="background:#2d2d2d;color:#fff;padding:10px;border-radius:6px;font-size:11px;overflow:auto;max-height:400px;direction:ltr;text-align:left;"></pre>'+
+            '<div class="buttons"><button class="confirm" onclick="closeModal()">بستن</button></div>';
+      modal(h);
+      $('dataDump').textContent=jsonText; // textContent, not innerHTML -> no HTML execution
+      toast('✅ دیتا نمایش داده شد','success');
+    }else{toast('دیتایی نیست','error');}
+  }catch(e){toast('خطا','error');}
+}
+
+function toast(x,t){t=t||'';var el=$('toast');el.textContent=x;el.className='toast show'+(t?' '+t:'');clearTimeout(el._t);el._t=setTimeout(function(){el.className='toast';},3000);}
+function modal(html){$('modal').innerHTML=html;$('modalbg').classList.add('active');}
+function closeModal(){$('modalbg').classList.remove('active');}
+
+function actionTarget(node){
+  while(node&&node!==document){
+    if(node.getAttribute&&node.getAttribute('data-action'))return node;
+    node=node.parentNode;
+  }
+  return null;
+}
+
+document.addEventListener('click',function(e){
+  var btn=actionTarget(e.target);
+  if(!btn)return;
+  e.preventDefault();
+  var action=btn.getAttribute('data-action');
+  if(action==='backup')exportBackup();
+  else if(action==='koder')saveToKoder();
+  else if(action==='drive')saveToDrive();
+  else if(action==='import')triggerImport();
+  else if(action==='data')viewData();
+  else if(action==='lock')lockNow();
+  else if(action==='changepin')changePin();
+},true);
+
+// ========================== جستجو ==========================
+function searchItem(d,q){
+  if(normalizeDigits(String(d.name||'')).toLowerCase().indexOf(q)!==-1||normalizeDigits(String(d.phone||'')).toLowerCase().indexOf(q)!==-1||normalizeDigits(String(d.address||'')).toLowerCase().indexOf(q)!==-1)return true;
+  if(d.transactions)for(var i=0;i<d.transactions.length;i++){var t=d.transactions[i],hay=[t.date,t.details,t.receipt,t.debtVal,t.page,t.currency].join(' ');if(normalizeDigits(hay).toLowerCase().indexOf(q)!==-1)return true;}
+  return false;
+}
+
+// ========================== رندر ==========================
+function render(){
+  var q=normalizeDigits($('search').value).trim().toLowerCase();
+  var list=[];
+  if(q){for(var i=0;i<debtors.length;i++){if(searchItem(debtors[i],q))list.push(debtors[i]);}}else{list=debtors;}
+  
+  var tA=0,tD=0,uA=0,uD=0;
+  for(var i=0;i<debtors.length;i++){var t=getTotals(debtors[i]);tA+=t.afnR;tD+=t.afnD;uA+=t.usdR;uD+=t.usdD;}
+  $('summary').innerHTML='<div class="card green"><div class="label">مجموع رسید</div><div class="value">'+fmt(tA,uA)+'</div></div><div class="card blue"><div class="label">مجموع قرض</div><div class="value">'+fmt(tD,uD)+'</div></div><div class="card red"><div class="label">باقی مانده</div><div class="value">'+fmt(tA-tD,uA-uD)+'</div></div>';
+  
+  if(!list.length){$('rows').innerHTML='<tr><td colspan="7" class="empty-state">حسابی پیدا نشد</td></tr>';return;}
+  var h='';
+  for(var i=0;i<list.length;i++){
+    var d=list[i],t=getTotals(d),idx=debtors.indexOf(d)+1,lastPage='-';
+    if(d.transactions&&d.transactions.length){var s=d.transactions.slice().sort(function(a,b){return a.date>b.date?-1:1;});if(s[0]&&s[0].page)lastPage=s[0].page;}
+    h+='<tr tabindex="0" data-id="'+esc(d.id)+'"><td>'+idx+'</td><td style="font-weight:bold;text-align:right;">'+esc(d.name)+'</td><td class="cell-phone">'+esc(d.phone||'-')+'</td><td>'+esc(lastPage)+'</td><td class="cell-receipt">'+fmt(t.afnR,t.usdR)+'</td><td class="cell-debt">'+fmt(t.afnD,t.usdD)+'</td><td class="cell-remaining">'+fmt(t.afnRem,t.usdRem)+'</td></tr>';
+  }
+  $('rows').innerHTML=h;
+}
+
+$('rows').addEventListener('click',function(e){
+  var row=e.target.closest('tr[data-id]');
+  if(row)openDetail(row.getAttribute('data-id'));
+});
+$('rows').addEventListener('keydown',function(e){
+  if(e.key==='Enter'||e.key===' '){var row=e.target.closest('tr[data-id]');if(row){e.preventDefault();openDetail(row.getAttribute('data-id'));}}
+});
+
+// ========================== اضافه کردن حساب ==========================
+function addDebtor(){
+  modal('<h3>➕ حساب جدید</h3><label>نام *</label><input id="n" type="text" placeholder="نام را وارد کنید" autofocus><label>تلفن</label><input id="p" type="tel" inputmode="numeric" lang="en" dir="ltr" placeholder="شماره تماس" oninput="normalizeNumberInput(this)"><label>آدرس</label><input id="a" type="text" placeholder="آدرس را وارد کنید"><div class="section-divider">معامله اول (اختیاری)</div><label>نوع</label><select id="txType"><option value="none">بدون معامله</option><option value="receipt">رسید</option><option value="debt">قرض</option></select><label>ارز</label><select id="curr"><option value="AFN">AFN</option><option value="USD">USD</option></select><label>تاریخ</label><input id="txDate" type="text" inputmode="numeric" lang="en" dir="ltr" value="'+today()+'" oninput="normalizeDateInput(this)"><label>مبلغ</label><input id="amt" type="text" inputmode="decimal" lang="en" dir="ltr" placeholder="مبلغ معامله" style="text-align:left;" oninput="sanitizeAmountInput(this)"><label>شرح</label><input id="det" type="text" placeholder="مثلاً بابت اجناس"><label>صفحه</label><input id="page" type="text" inputmode="numeric" lang="en" dir="ltr" placeholder="شماره صفحه" oninput="normalizeNumberInput(this)"><div class="buttons"><button class="cancel" onclick="closeModal()">لغو</button><button class="confirm" id="saveD">ثبت حساب</button></div>');
+  
+  $('saveD').onclick=function(){
+    var n=$('n').value.trim();if(!n){toast('نام را وارد کنید','error');$('n').focus();return;}
+    for(var i=0;i<debtors.length;i++){if(debtors[i].name.toLowerCase()===n.toLowerCase()){toast('❌ اسم تکراری است','error');$('n').focus();$('n').select();return;}}
+    var nd={id:Date.now(),name:n,phone:$('p').value.trim(),address:$('a').value.trim(),transactions:[]};
+    var type=$('txType').value;
+    if(type!=='none'){
+      var amt=amount($('amt').value);
+      if(!isFinite(amt)){toast('برای معامله اول مبلغ معتبر وارد کنید','error');$('amt').focus();return;}
+      var isR=type==='receipt';
+      nd.transactions.push({id:Date.now()+1,date:normalizeDateValue($('txDate').value.trim()||today()),currency:$('curr').value,details:$('det').value.trim()||(isR?'رسید':'قرض'),receipt:isR?amt:0,debtVal:isR?0:amt,page:$('page').value.trim()||''});
+    }
+    debtors.push(nd);save();closeModal();render();toast('✅ حساب اضافه شد','success');
+  };
+  setTimeout(function(){var el=$('n');if(el)el.focus();},300);
+}
+
+// ========================== جزئیات ==========================
+function openDetail(id){current=id;$('detail').classList.add('active');renderDetail();}
+function closeDetail(){$('detail').classList.remove('active');current=null;render();}
+
+function renderDetail(){
+  var d=null;for(var i=0;i<debtors.length;i++){if(+debtors[i].id===+current){d=debtors[i];break;}}if(!d)return;
+  $('title').textContent='صورت حساب: '+d.name;
+  var t=getTotals(d);
+  var h='<div class="info"><div class="info-item"><span class="label">اسم</span><span>'+esc(d.name)+'</span></div><div class="info-item"><span class="label">آدرس</span><span>'+esc(d.address||'ثبت نشده')+'</span></div><div class="info-item"><span class="label">تلفن</span><span class="phone-val">'+esc(d.phone||'ثبت نشده')+'</span></div></div><div class="summary"><div class="card green"><div class="label">مجموع رسید</div><div class="value">'+fmt(t.afnR,t.usdR)+'</div></div><div class="card blue"><div class="label">مجموع قرض</div><div class="value">'+fmt(t.afnD,t.usdD)+'</div></div><div class="card red"><div class="label">باقی مانده</div><div class="value">'+fmt(t.afnRem,t.usdRem)+'</div></div></div><div class="table-wrapper"><table class="custom-table"><thead><tr><th style="width:80px;">تاریخ</th><th>شرح</th><th style="width:40px;">صفحه</th><th class="cell-receipt">رسید</th><th class="cell-debt">قرض</th><th style="width:50px;">ارز</th><th class="cell-remaining">باقی پس از معامله</th></tr></thead><tbody>';
+  if(!d.transactions||!d.transactions.length){h+='<tr><td colspan="7" class="empty-state">هنوز معامله‌ای ثبت نشده</td></tr>';}else{
+    var s=d.transactions.slice().sort(function(a,b){return String(a.date||'').localeCompare(String(b.date||''));});
+    var runA=0,runU=0;
+    for(var i=0;i<s.length;i++){var tx=s[i],c=tx.currency||'AFN',r=tx.receipt!==undefined?tx.receipt:tx.debt,db=tx.debtVal!==undefined?tx.debtVal:tx.paid;
+    c=c==='USD'?'USD':'AFN';
+    var rr=storedAmount(r),dd=storedAmount(db);
+    if(c==='USD')runU+=rr-dd;else runA+=rr-dd;
+    h+='<tr tabindex="0" data-tx-id="'+esc(tx.id)+'"><td dir="ltr">'+esc(tx.date)+'</td><td style="text-align:right;">'+esc(tx.details)+'</td><td>'+esc(tx.page||'')+'</td><td class="cell-receipt">'+(rr?num(rr)+' '+c:'-')+'</td><td class="cell-debt">'+(dd?num(dd)+' '+c:'-')+'</td><td><b>'+c+'</b></td><td class="cell-remaining">'+fmt(runA,runU)+'</td></tr>';}
+  }
+  h+='</tbody></table></div><div class="balance">باقی مانده فعلی: <br><b>'+fmt(t.afnRem,t.usdRem)+'</b></div><div class="actions"><button class="btn-receipt" onclick="openTransaction(true)">+ رسید جدید</button><button class="btn-debt" onclick="openTransaction(false)">+ قرض جدید</button></div>';
+  $('detailBody').innerHTML=h;
+  var txRows=$('detailBody').querySelectorAll('tr[data-tx-id]');
+  for(var q=0;q<txRows.length;q++){
+    txRows[q].addEventListener('click',function(){editTransaction(this.getAttribute('data-tx-id'));});
+    txRows[q].addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();editTransaction(this.getAttribute('data-tx-id'));}});
+  }
+}
+
+// ========================== معامله ==========================
+function openTransaction(isR){
+  var title=isR?'ثبت رسید جدید':'ثبت قرض جدید',btn=isR?'ثبت رسید':'ثبت قرض',cls=isR?'green':'blue',col=isR?'var(--green)':'var(--blue)';
+  modal('<h3 style="color:'+col+'">'+title+'</h3><label>ارز</label><select id="curr"><option value="AFN">AFN</option><option value="USD">USD</option></select><label>تاریخ</label><input id="txDate" type="text" inputmode="numeric" lang="en" dir="ltr" value="'+today()+'" oninput="normalizeDateInput(this)"><label>مبلغ</label><input id="amt" type="text" inputmode="decimal" lang="en" dir="ltr" placeholder="مبلغ را وارد کنید" style="text-align:left;" oninput="sanitizeAmountInput(this)"><label>شرح</label><input id="det" type="text" placeholder="شرح معامله"><label>صفحه</label><input id="page" type="text" inputmode="numeric" lang="en" dir="ltr" placeholder="شماره صفحه" oninput="normalizeNumberInput(this)"><div class="buttons"><button class="cancel" onclick="closeModal()">لغو</button><button class="confirm '+cls+'" id="saveTx">'+btn+'</button></div>');
+  $('saveTx').onclick=function(){
+    var v=amount($('amt').value);if(!isFinite(v)){toast('مبلغ معتبر وارد کنید','error');$('amt').focus();return;}
+    var d=null;for(var i=0;i<debtors.length;i++){if(+debtors[i].id===+current){d=debtors[i];break;}}if(!d){toast('حساب پیدا نشد','error');return;}
+    d.transactions.push({id:Date.now(),date:normalizeDateValue($('txDate').value.trim()||today()),currency:$('curr').value,details:$('det').value.trim()||(isR?'رسید':'قرض'),receipt:isR?v:0,debtVal:isR?0:v,page:$('page').value.trim()||''});
+    save();closeModal();renderDetail();render();toast('✅ معامله ثبت شد','success');
+  };
+  setTimeout(function(){var el=$('amt');if(el)el.focus();},300);
+}
+
+function editTransaction(txId){
+  var d=null;for(var j=0;j<debtors.length;j++){if(+debtors[j].id===+current){d=debtors[j];break;}}if(!d)return;
+  var tIdx=-1;for(var k=0;k<d.transactions.length;k++){if(+d.transactions[k].id===+txId){tIdx=k;break;}}if(tIdx===-1)return;
+  var t=d.transactions[tIdx],isR=(+t.receipt||+t.debt)>0,v=isR?(t.receipt||t.debt):(t.debtVal||t.paid),curr=t.currency||'AFN';
+  modal('<h3>ویرایش معامله</h3><label>ارز</label><select id="curr"><option value="AFN"'+(curr==='AFN'?' selected':'')+'>AFN</option><option value="USD"'+(curr==='USD'?' selected':'')+'>USD</option></select><label>تاریخ</label><input id="txDate" type="text" inputmode="numeric" lang="en" dir="ltr" value="'+esc(t.date)+'" oninput="normalizeDateInput(this)"><label>مبلغ</label><input id="amt" type="text" inputmode="decimal" lang="en" dir="ltr" placeholder="مبلغ" style="text-align:left;" value="'+esc(v)+'" oninput="sanitizeAmountInput(this)"><label>شرح</label><input id="det" type="text" value="'+esc(t.details)+'"><label>صفحه</label><input id="page" type="text" inputmode="numeric" lang="en" dir="ltr" value="'+esc(t.page||'')+'" oninput="normalizeNumberInput(this)"><div class="buttons"><button class="cancel" onclick="closeModal()">لغو</button><button class="confirm red" id="delTx">🗑 حذف</button><button class="confirm" id="saveTx">💾 ذخیره</button></div>');
+  $('delTx').onclick=function(){if(confirm('آیا مطمئن هستید؟')){d.transactions.splice(tIdx,1);save();closeModal();renderDetail();render();toast('✅ حذف شد','success');}};
+   $('saveTx').onclick=function(){var v2=amount($('amt').value);if(!isFinite(v2)){toast('مبلغ معتبر','error');$('amt').focus();return;}t.currency=$('curr').value;t.receipt=isR?v2:0;t.debtVal=isR?0:v2;t.details=$('det').value.trim()||'معامله';t.page=$('page').value.trim()||'';var nd=$('txDate').value.trim();if(nd)t.date=normalizeDateValue(nd);save();closeModal();renderDetail();render();toast('✅ ویرایش شد','success');};
+}
+
+function editInfo(){
+  var d=null;for(var j=0;j<debtors.length;j++){if(+debtors[j].id===+current){d=debtors[j];break;}}if(!d)return;
+  modal('<h3>ویرایش معلومات</h3><label>نام</label><input id="n" type="text" value="'+esc(d.name)+'"><label>آدرس</label><input id="a" type="text" value="'+esc(d.address||'')+'"><label>تلفن</label><input id="p" type="tel" inputmode="numeric" lang="en" dir="ltr" value="'+esc(d.phone||'')+'" oninput="normalizeNumberInput(this)"><div class="buttons"><button class="cancel" onclick="closeModal()">لغو</button><button class="confirm red" id="delD">🗑 حذف حساب</button><button class="confirm" id="saveD">💾 ذخیره</button></div>');
+  $('delD').onclick=function(){if(confirm('آیا مطمئن هستید؟')){debtors=debtors.filter(function(item){return +item.id!==+current;});save();closeModal();closeDetail();toast('✅ حذف شد','success');}};
+  $('saveD').onclick=function(){var n=$('n').value.trim();if(!n){toast('نام را وارد کنید','error');$('n').focus();return;}d.name=n;d.address=$('a').value.trim();d.phone=$('p').value.trim();save();closeModal();renderDetail();render();toast('✅ ذخیره شد','success');};
+  setTimeout(function(){var el=$('n');if(el)el.focus();},300);
+}
+
+// ========================== چت هوش مصنوعی (دستیار مدیریت برنامه) ==========================
+// این دستیار از طریق «ابزار» (tool use) مستقیماً روی داده‌های debtors عمل می‌کند:
+// افزودن/ویرایش/حذف حساب و معامله، جستجو، و گرفتن خلاصه گزارش.
+var chatConversation = []; // فرمت کامل پیام‌های API (شامل tool_use / tool_result)
+
+// تأیید واقعی عملیات خطرناک؛ حذف/بازیابی فقط بعد از پیام صریح بعدی کاربر اجرا می‌شود.
+var pendingDangerousCall = null;
+
+function isExplicitChatConfirmation(text){
+  var s = normalizeDigits(String(text || '').trim().toLowerCase())
+    .replace(/[‌\s]/g,'');
+  return /^(بله|بلی|تایید|تاییدشد|تاییدمیکنم|مطمئنم|انجامبده|انجامشده|yes|ok|sure|confirm)$/.test(s);
+}
+
+function isExplicitChatCancellation(text){
+  var s = String(text || '').trim().toLowerCase().replace(/[‌\s]/g,'');
+  return /^(نه|خیر|لغو|انصراف|cancel|no)$/.test(s);
+}
+
+function dangerousToolLabel(name){
+  if(name === 'delete_account') return 'حذف کامل حساب و تمام معاملات آن';
+  if(name === 'delete_transaction') return 'حذف معامله انتخاب‌شده';
+  if(name === 'restore_backup') return 'جایگزین کردن تمام اطلاعات فعلی با بکاپ';
+  return 'این عملیات';
+}
+
+var TOOL_LABELS = {
+  add_account:'افزودن حساب جدید',
+  add_transaction:'ثبت معامله',
+  edit_account:'ویرایش حساب',
+  delete_account:'حذف حساب',
+  list_accounts:'جستجوی حساب‌ها',
+  get_account_details:'دریافت جزئیات حساب',
+  edit_transaction:'ویرایش معامله',
+  delete_transaction:'حذف معامله',
+  get_summary:'دریافت خلاصه کلی',
+  create_backup:'گرفتن بکاپ',
+  restore_backup:'بازیابی از بکاپ',
+  open_account_view:'باز کردن صفحه حساب'
+};
+
+var CHAT_TOOLS = [
+  { name:'add_account', description:'اضافه کردن یک حساب/مشتری جدید به دفتر.',
+    input_schema:{ type:'object', properties:{
+      name:{type:'string', description:'نام مشتری/حساب (الزامی)'},
+      phone:{type:'string', description:'شماره تلفن (اختیاری)'},
+      address:{type:'string', description:'آدرس (اختیاری)'}
+    }, required:['name'] } },
+
+  { name:'add_transaction', description:'ثبت یک معامله جدید (رسید یا قرض) برای یک حساب موجود.',
+    input_schema:{ type:'object', properties:{
+      account_name:{type:'string', description:'نام حساب موجود'},
+      type:{type:'string', enum:['receipt','debt'], description:'receipt=رسید (پول دریافت‌شده)، debt=قرض (بدهکار شدن مشتری)'},
+      amount:{type:'number', description:'مبلغ (عدد مثبت)'},
+      currency:{type:'string', enum:['AFN','USD'], description:'واحد پول، پیش‌فرض AFN'},
+      date:{type:'string', description:'تاریخ به فرمت YYYY/MM/DD؛ اگر ذکر نشود امروز در نظر گرفته می‌شود'},
+      details:{type:'string', description:'شرح معامله'},
+      page:{type:'string', description:'شماره صفحه دفتر کاغذی (اختیاری)'}
+    }, required:['account_name','type','amount'] } },
+
+  { name:'edit_account', description:'ویرایش نام، تلفن یا آدرس یک حساب موجود.',
+    input_schema:{ type:'object', properties:{
+      account_name:{type:'string', description:'نام فعلی حساب'},
+      new_name:{type:'string'}, phone:{type:'string'}, address:{type:'string'}
+    }, required:['account_name'] } },
+
+  { name:'delete_account', description:'حذف کامل یک حساب و تمام معاملاتش. غیرقابل‌بازگشت — فقط پس از تاییدیه صریح کاربر در چت صدا زده شود.',
+    input_schema:{ type:'object', properties:{ account_name:{type:'string'} }, required:['account_name'] } },
+
+  { name:'list_accounts', description:'گرفتن لیست حساب‌ها همراه با مجموع رسید/قرض/باقی هرکدام. اگر query داده شود فقط حساب‌های منطبق برگردانده می‌شود.',
+    input_schema:{ type:'object', properties:{ query:{type:'string'} } } },
+
+  { name:'get_account_details', description:'گرفتن اطلاعات کامل یک حساب شامل تمام معاملات به‌ترتیب تاریخ همراه با شماره ردیف (index) هرکدام — لازم قبل از ویرایش/حذف یک معامله خاص.',
+    input_schema:{ type:'object', properties:{ account_name:{type:'string'} }, required:['account_name'] } },
+
+  { name:'edit_transaction', description:'ویرایش یک معامله مشخص با شماره ردیف آن (transaction_index از get_account_details گرفته شود).',
+    input_schema:{ type:'object', properties:{
+      account_name:{type:'string'}, transaction_index:{type:'integer'},
+      type:{type:'string', enum:['receipt','debt']}, amount:{type:'number'},
+      currency:{type:'string', enum:['AFN','USD']}, date:{type:'string'},
+      details:{type:'string'}, page:{type:'string'}
+    }, required:['account_name','transaction_index'] } },
+
+  { name:'delete_transaction', description:'حذف یک معامله مشخص با شماره ردیف آن. غیرقابل‌بازگشت — فقط پس از تاییدیه صریح کاربر صدا زده شود.',
+    input_schema:{ type:'object', properties:{
+      account_name:{type:'string'}, transaction_index:{type:'integer'}
+    }, required:['account_name','transaction_index'] } },
+
+  { name:'get_summary', description:'گرفتن مجموع کلی رسید، قرض و باقی‌مانده همه حساب‌ها با هم.',
+    input_schema:{ type:'object', properties:{} } },
+
+  { name:'create_backup', description:'گرفتن یک فایل بکاپ (پشتیبان) از تمام داده‌های برنامه و دانلود/اشتراک‌گذاری آن — همان کاری که دکمه «📥 بکاپ» در بالای صفحه انجام می‌دهد.',
+    input_schema:{ type:'object', properties:{} } },
+
+  { name:'restore_backup', description:'بازیابی داده‌ها از یک متن JSON بکاپ که کاربر مستقیماً در چت فرستاده. توجه: این عملیات تمام داده‌های فعلی برنامه را با محتوای بکاپ جایگزین می‌کند و غیرقابل‌بازگشت است — فقط پس از تاییدیه صریح کاربر صدا زده شود.',
+    input_schema:{ type:'object', properties:{
+      json_data:{type:'string', description:'محتوای کامل فایل بکاپ JSON که کاربر فرستاده است'}
+    }, required:['json_data'] } },
+
+  { name:'open_account_view', description:'باز کردن صفحه جزئیات یک حساب در برنامه برای نمایش به کاربر (فقط ناوبری، تغییری در داده نمی‌دهد).',
+    input_schema:{ type:'object', properties:{ account_name:{type:'string'} }, required:['account_name'] } }
+];
+
+var CHAT_SYSTEM_PROMPT =
+  'شما دستیار مدیریت «دفتر کهاته سلطان» هستید، یک برنامه دفترچه حساب/قرض. '+
+  'همیشه به زبان فارسی/دری روان و محاوره‌ای پاسخ بده. برای هرگونه تغییر در داده‌ها (افزودن، ویرایش، حذف) حتماً از ابزارهای موجود استفاده کن؛ خودت مستقیماً چیزی را «فرض» نکن. '+
+  'واحد پول پیش‌فرض AFN است مگر کاربر USD بگوید. اگر تاریخ ذکر نشد، از تاریخ امروز استفاده کن (نیازی به پرسیدن نیست). '+
+  'قبل از فراخوانی delete_account، delete_transaction یا restore_backup، حتماً یک‌بار در پیام متنی توضیح بده دقیقاً چه چیزی حذف/جایگزین خواهد شد و از کاربر تاییدیه صریح بخواه (مثل «بله»، «تایید»، «مطمئنم»)؛ فقط پس از دریافت تاییدیه در پیام بعدی کاربر، ابزار مربوطه را صدا بزن. توجه: restore_backup تمام داده‌های فعلی را پاک و جایگزین می‌کند. '+
+  'برای افزودن یا ویرایش نیازی به تاییدیه نیست، مگر اطلاعات ضروری (مثل نام یا مبلغ) داده نشده باشد که باید بپرسی. '+
+  'اگر نام حسابی که کاربر گفت پیدا نشد یا چند حساب مشابه بود، نتیجه ابزار را ببین و از کاربر برای دقیق‌تر کردن نام بپرس. '+
+  'برای ویرایش یا حذف یک معامله خاص، ابتدا با get_account_details شماره ردیف (index) معامله موردنظر را پیدا کن. '+
+  'پاسخ‌های خود را کوتاه و مفید نگه دار.';
+
+function loadChatHistory(){
+  try{
+    var x = localStorage.getItem('khatabook_chat_gemini_v1');
+    chatConversation = x ? JSON.parse(x) : [];
+  }catch(e){ chatConversation = []; }
+}
+function saveChatHistory(){
+  try{ localStorage.setItem('khatabook_chat_gemini_v1', JSON.stringify(chatConversation)); }catch(e){}
+}
+
+function getApiKey(){ try{ return localStorage.getItem('khatabook_gemini_key')||''; }catch(e){ return ''; } }
+function setApiKey(k){ try{ localStorage.setItem('khatabook_gemini_key', k); }catch(e){} }
+
+function promptForApiKey(){
+  var currentKey = getApiKey();
+  modal('<h3>⚙️ کلید API جیمینی (رایگان)</h3>'+
+    '<p style="font-size:12px;color:#666;margin:0 0 8px;">این کلید رایگان است و نیازی به شارژ پول ندارد. برای گرفتن آن:</p>'+
+    '<p style="font-size:12px;color:#666;margin:0 0 8px;">۱) به آدرس <b dir="ltr">aistudio.google.com/apikey</b> بروید<br>۲) با حساب گوگل وارد شوید<br>۳) روی «Create API key» بزنید و آن را کپی کنید</p>'+
+    '<label>کلید API (شروع با AIza)</label>'+
+    '<input id="apiKeyInput" type="password" dir="ltr" placeholder="AIza..." value="'+esc(currentKey)+'">'+
+    '<p style="font-size:11px;color:var(--red);margin-top:8px;">⚠️ این کلید فقط روی همین گوشی/مرورگر و به‌صورت خام ذخیره می‌شود. با کسی به اشتراک نگذارید.</p>'+
+    '<div class="buttons"><button class="cancel" onclick="closeModal()">لغو</button>'+
+    (currentKey ? '<button class="confirm red" id="clearKeyBtn">حذف کلید</button>' : '')+
+    '<button class="confirm" id="saveKeyBtn">ذخیره</button></div>');
+  $('saveKeyBtn').onclick = function(){
+    var k = $('apiKeyInput').value.trim();
+    if(!k){ toast('کلید را وارد کنید','error'); return; }
+    setApiKey(k);
+    closeModal();
+    toast('✅ کلید ذخیره شد','success');
+    renderChatMessages();
+  };
+  var clearBtn = $('clearKeyBtn');
+  if(clearBtn){
+    clearBtn.onclick = function(){
+      if(confirm('کلید API حذف شود؟')){
+        localStorage.removeItem('khatabook_gemini_key');
+        closeModal();
+        toast('کلید حذف شد','success');
+        renderChatMessages();
+      }
+    };
+  }
+  setTimeout(function(){ var el=$('apiKeyInput'); if(el) el.focus(); }, 200);
+}
+
+function openChat(){
+  $('chatPanel').classList.add('active');
+  renderChatMessages();
+  setTimeout(function(){ var el=$('chatInput'); if(el) el.focus(); }, 200);
+}
+function closeChat(){ $('chatPanel').classList.remove('active'); }
+function clearChat(){
+  if(!chatConversation.length) return;
+  if(confirm('تاریخچه گفتگو پاک شود؟')){
+    chatConversation = [];
+    saveChatHistory();
+    renderChatMessages();
+  }
+}
+
+function refreshAppUI(){
+  if(current!=null){
+    var exists = debtors.some(function(d){ return +d.id===+current; });
+    if(exists) renderDetail(); else { $('detail').classList.remove('active'); current=null; }
+  }
+  render();
+}
+
+// ---------- پیدا کردن حساب با نام ----------
+function toolFindAccount(name){
+  if(!name || !String(name).trim()) return {error:'نام حساب داده نشده است'};
+  var q = String(name).trim().toLowerCase();
+  var exact = debtors.filter(function(d){ return d.name.toLowerCase()===q; });
+  if(exact.length===1) return {account: exact[0]};
+  if(exact.length>1) return {error:'چند حساب با نام دقیقاً یکسان پیدا شد، لطفاً مشخص‌تر بگویید'};
+  var partial = debtors.filter(function(d){ return d.name.toLowerCase().indexOf(q)!==-1; });
+  if(partial.length===1) return {account: partial[0]};
+  if(partial.length>1) return {error:'چند حساب مشابه پیدا شد: '+partial.map(function(d){return d.name;}).join('، ')+' — لطفاً نام دقیق‌تر بگویید'};
+  return {error:'حسابی با نام «'+name+'» پیدا نشد'};
+}
+
+function validNormalizedDate(v){
+  var s = String(v||'').trim();
+  var m = s.match(/^(\d{4})\/(\d{2})\/(\d{2})$/);
+  if(!m) return false;
+  var y=Number(m[1]), mo=Number(m[2]), d=Number(m[3]);
+  return y>=1 && mo>=1 && mo<=12 && d>=1 && d<=31;
+}
+
+function sortedTx(d){
+  return d.transactions.slice().sort(function(a,b){ return String(a.date||'').localeCompare(String(b.date||'')); });
+}
+
+// ---------- اجرای ابزارها روی داده واقعی برنامه ----------
+function executeChatTool(toolName, input){
+  input = input || {};
+  try{
+    if(toolName==='delete_account' || toolName==='delete_transaction' || toolName==='restore_backup'){
+      if(input.__confirmed_by_user !== true){
+        return {error:'تأیید صریح کاربر برای این عملیات لازم است؛ عملیات اجرا نشد'};
+      }
+      delete input.__confirmed_by_user;
+    }
+    if(toolName === 'add_account'){
+      var name = String(input.name||'').trim();
+      if(!name) return {error:'نام الزامی است'};
+      var dup = debtors.some(function(d){ return d.name.toLowerCase()===name.toLowerCase(); });
+      if(dup) return {error:'حسابی با این نام از قبل وجود دارد'};
+      var nd = {id:Date.now(), name:name, phone:String(input.phone||'').trim(), address:String(input.address||'').trim(), transactions:[]};
+      debtors.push(nd); save(); refreshAppUI();
+      return {success:true, message:'حساب «'+name+'» با موفقیت اضافه شد'};
+    }
+
+    if(toolName === 'add_transaction'){
+      var found = toolFindAccount(input.account_name);
+      if(found.error) return {error:found.error};
+      var d = found.account;
+      if(input.type!=='receipt' && input.type!=='debt') return {error:'نوع معامله باید receipt یا debt باشد'};
+      var amt = Number(input.amount);
+      if(!isFinite(amt) || amt<=0) return {error:'مبلغ نامعتبر است'};
+      var isR = input.type==='receipt';
+      var currency = input.currency==='USD' ? 'USD' : 'AFN';
+      var date = normalizeDateValue(input.date ? input.date : today());
+      if(!validNormalizedDate(date)) return {error:'تاریخ نامعتبر است؛ تاریخ را به شکل YYYY/MM/DD وارد کنید'};
+      var tx = {id:Date.now()+Math.floor(Math.random()*1000), date:date, currency:currency,
+        details:String(input.details||'').trim() || (isR?'رسید':'قرض'),
+        receipt:isR?amt:0, debtVal:isR?0:amt, page:String(input.page||'').trim()};
+      d.transactions.push(tx); save(); refreshAppUI();
+      return {success:true, message:(isR?'رسید':'قرض')+' به مبلغ '+num(amt)+' '+currency+' برای «'+d.name+'» ثبت شد'};
+    }
+
+    if(toolName === 'edit_account'){
+      var found2 = toolFindAccount(input.account_name);
+      if(found2.error) return {error:found2.error};
+      var d2 = found2.account;
+      if(input.new_name && String(input.new_name).trim()){
+        var nn = String(input.new_name).trim();
+        var dup2 = debtors.some(function(x){ return x!==d2 && x.name.toLowerCase()===nn.toLowerCase(); });
+        if(dup2) return {error:'حساب دیگری با این نام وجود دارد'};
+        d2.name = nn;
+      }
+      if(input.phone!==undefined) d2.phone = String(input.phone).trim();
+      if(input.address!==undefined) d2.address = String(input.address).trim();
+      save(); refreshAppUI();
+      return {success:true, message:'اطلاعات حساب «'+d2.name+'» ذخیره شد'};
+    }
+
+    if(toolName === 'delete_account'){
+      var found3 = toolFindAccount(input.account_name);
+      if(found3.error) return {error:found3.error};
+      var deletedName = found3.account.name;
+      debtors = debtors.filter(function(x){ return x!==found3.account; });
+      save(); refreshAppUI();
+      return {success:true, message:'حساب «'+deletedName+'» حذف شد'};
+    }
+
+    if(toolName === 'list_accounts'){
+      var query = String(input.query||'').trim().toLowerCase();
+      var list = query ? debtors.filter(function(d){ return searchItem(d, normalizeDigits(query)); }) : debtors;
+      var result = list.map(function(d){
+        var t = getTotals(d);
+        return {name:d.name, phone:d.phone, address:d.address,
+          receipt_afn:t.afnR, debt_afn:t.afnD, remaining_afn:t.afnRem,
+          receipt_usd:t.usdR, debt_usd:t.usdD, remaining_usd:t.usdRem};
+      });
+      return {accounts:result, count:result.length};
+    }
+
+    if(toolName === 'get_account_details'){
+      var found4 = toolFindAccount(input.account_name);
+      if(found4.error) return {error:found4.error};
+      var d4 = found4.account, t4 = getTotals(d4), s4 = sortedTx(d4);
+      var txList = s4.map(function(tx,i){
+        return {index:i+1, date:tx.date, type: tx.receipt>0?'receipt':'debt',
+          amount: tx.receipt>0?tx.receipt:tx.debtVal, currency:tx.currency, details:tx.details, page:tx.page};
+      });
+      return {name:d4.name, phone:d4.phone, address:d4.address, totals:t4, transactions:txList};
+    }
+
+    if(toolName === 'edit_transaction'){
+      var found5 = toolFindAccount(input.account_name);
+      if(found5.error) return {error:found5.error};
+      var d5 = found5.account, s5 = sortedTx(d5);
+      var idx5 = Number(input.transaction_index) - 1;
+      if(!isFinite(idx5) || idx5<0 || idx5>=s5.length) return {error:'شماره ردیف معامله نامعتبر است؛ ابتدا با get_account_details شماره درست را بگیرید'};
+      var tx5 = s5[idx5];
+      var isR5 = input.type ? input.type==='receipt' : (tx5.receipt>0);
+      var amt5 = input.amount!==undefined ? Number(input.amount) : (isR5?tx5.receipt:tx5.debtVal);
+      if(!isFinite(amt5) || amt5<=0) return {error:'مبلغ نامعتبر است'};
+      if(input.currency) tx5.currency = input.currency==='USD'?'USD':'AFN';
+      tx5.receipt = isR5?amt5:0; tx5.debtVal = isR5?0:amt5;
+      if(input.date){
+        var nd5 = normalizeDateValue(input.date);
+        if(!validNormalizedDate(nd5)) return {error:'تاریخ نامعتبر است؛ تاریخ را به شکل YYYY/MM/DD وارد کنید'};
+        tx5.date = nd5;
+      }
+      if(input.details!==undefined && String(input.details).trim()) tx5.details = String(input.details).trim();
+      if(input.page!==undefined) tx5.page = String(input.page).trim();
+      save(); refreshAppUI();
+      return {success:true, message:'معامله شماره '+input.transaction_index+' برای «'+d5.name+'» ویرایش شد'};
+    }
+
+    if(toolName === 'delete_transaction'){
+      var found6 = toolFindAccount(input.account_name);
+      if(found6.error) return {error:found6.error};
+      var d6 = found6.account, s6 = sortedTx(d6);
+      var idx6 = Number(input.transaction_index) - 1;
+      if(!isFinite(idx6) || idx6<0 || idx6>=s6.length) return {error:'شماره ردیف معامله نامعتبر است'};
+      var tx6 = s6[idx6];
+      var realIdx6 = d6.transactions.indexOf(tx6);
+      d6.transactions.splice(realIdx6, 1);
+      save(); refreshAppUI();
+      return {success:true, message:'معامله شماره '+input.transaction_index+' از «'+d6.name+'» حذف شد'};
+    }
+
+    if(toolName === 'get_summary'){
+      var tA=0,tD=0,uA=0,uD=0;
+      for(var i=0;i<debtors.length;i++){ var t=getTotals(debtors[i]); tA+=t.afnR; tD+=t.afnD; uA+=t.usdR; uD+=t.usdD; }
+      return {receipt_afn:tA, debt_afn:tD, remaining_afn:tA-tD, receipt_usd:uA, debt_usd:uD, remaining_usd:uA-uD, account_count:debtors.length};
+    }
+
+    if(toolName === 'create_backup'){
+      if(!debtors.length) return {error:'هیچ داده‌ای برای بکاپ گرفتن وجود ندارد'};
+      downloadBackup('✅ بکاپ ذخیره شد');
+      return {success:true, message:'فایل بکاپ ساخته و برای دانلود/اشتراک‌گذاری آماده شد'};
+    }
+
+    if(toolName === 'restore_backup'){
+      var raw = input.json_data;
+      if(!raw || !String(raw).trim()) return {error:'محتوای JSON بکاپ داده نشده است'};
+      var parsed;
+      try{ parsed = JSON.parse(raw); }catch(e){ return {error:'متن ارسالی یک JSON معتبر نیست'}; }
+      var normalized = normalizeData(parsed);
+      if(!normalized) return {error:'فرمت بکاپ نامعتبر است (ساختار debtors پیدا نشد)'};
+      debtors = normalized; save();
+      current = null; $('detail').classList.remove('active');
+      render();
+      return {success:true, message:'بازیابی انجام شد؛ تعداد حساب‌های بازیابی‌شده: '+debtors.length};
+    }
+
+    if(toolName === 'open_account_view'){
+      var foundV = toolFindAccount(input.account_name);
+      if(foundV.error) return foundV;
+      openDetail(foundV.account.id);
+      closeChat();
+      return {success:true, message:'صفحه حساب «'+foundV.account.name+'» باز شد'};
+    }
+
+    return {error:'ابزار ناشناخته'};
+  }catch(e){
+    return {error:'خطای داخلی هنگام اجرای عملیات'};
+  }
+}
+
+// ---------- رندر پیام‌ها از روی chatConversation (فرمت Gemini) ----------
+function renderChatMessages(){
+  var box = $('chatMessages');
+  if(!chatConversation.length){
+    if(!getApiKey()){
+      box.innerHTML = '<div class="chat-empty">برای فعال شدن دستیار، یک کلید رایگان جیمینی وارد کنید.<br><br>'+
+        '<button onclick="promptForApiKey()" style="background:#2b6cb0;color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:bold;cursor:pointer;">⚙️ وارد کردن کلید API</button></div>';
+    } else {
+      box.innerHTML = '<div class="chat-empty">سلام! من دستیار مدیریت این دفترم 🙂<br>می‌تونم حساب و معامله اضافه/ویرایش/حذف کنم، یا هر سوالی درباره حساب‌ها بپرسی جواب بدم.</div>';
+    }
+    return;
+  }
+  var h = '';
+  for(var i=0;i<chatConversation.length;i++){
+    var m = chatConversation[i];
+    if(m.role === 'function') continue; // نتیجه ابزار را نمایش نمی‌دهیم
+    var parts = m.parts || [];
+    for(var j=0;j<parts.length;j++){
+      var p = parts[j];
+      if(p.text){
+        h += '<div class="chat-msg '+(m.role==='user'?'user':'assistant')+'">'+esc(p.text)+'</div>';
+      } else if(p.functionCall){
+        var label = TOOL_LABELS[p.functionCall.name] || p.functionCall.name;
+        h += '<div class="chat-msg tool">🔧 '+esc(label)+'</div>';
+      }
+    }
+  }
+  box.innerHTML = h || '<div class="chat-empty">سلام! چطور می‌تونم کمکت کنم؟</div>';
+  box.scrollTop = box.scrollHeight;
+}
+
+function autoGrowChatInput(){
+  var el = $('chatInput');
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+}
+document.addEventListener('input', function(e){
+  if(e.target && e.target.id === 'chatInput') autoGrowChatInput();
+});
+
+var GEMINI_MODEL = 'gemini-3.6-flash';
+
+function convertSchemaToGemini(schema){
+  if(!schema || typeof schema !== 'object') return schema;
+  var out = {};
+  if(schema.type) out.type = String(schema.type).toUpperCase();
+  if(schema.description) out.description = schema.description;
+  if(schema.enum) out.enum = schema.enum;
+  if(schema.properties){
+    out.properties = {};
+    for(var k in schema.properties){ out.properties[k] = convertSchemaToGemini(schema.properties[k]); }
+  }
+  if(schema.items) out.items = convertSchemaToGemini(schema.items);
+  if(schema.required) out.required = schema.required;
+  return out;
+}
+function toolsForGemini(){
+  return [{ functionDeclarations: CHAT_TOOLS.map(function(t){
+    return { name:t.name, description:t.description, parameters: convertSchemaToGemini(t.input_schema) };
+  }) }];
+}
+
+function callGeminiAPI(contents){
+  var key = getApiKey();
+  var url = 'https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODEL+':generateContent';
+  return fetch(url, {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'x-goog-api-key': key },
+    body: JSON.stringify({
+      contents: contents,
+      tools: toolsForGemini(),
+      systemInstruction: { parts:[{ text: CHAT_SYSTEM_PROMPT }] }
+    })
+  }).then(function(res){ return res.json(); });
+}
+
+function sendChatMessage(){
+  var input = $('chatInput');
+  var text = input.value.trim();
+  if(!text) return;
+
+  if(!getApiKey()){
+    promptForApiKey();
+    return;
+  }
+
+  input.value = ''; input.style.height = 'auto';
+
+  // اگر عملیات خطرناک در انتظار تأیید است، پیام بعدی کاربر را مستقیماً بررسی می‌کنیم.
+  if(pendingDangerousCall){
+    var pending = pendingDangerousCall;
+    if(isExplicitChatConfirmation(text)){
+      pendingDangerousCall = null;
+      pending.args = pending.args || {};
+      pending.args.__confirmed_by_user = true;
+
+      chatConversation.push({role:'user', parts:[{text:text}]});
+      saveChatHistory();
+      renderChatMessages();
+
+      var confirmBtn = $('chatSendBtn');
+      confirmBtn.disabled = true;
+      var confirmBox = $('chatMessages');
+      var confirmThinking = document.createElement('div');
+      confirmThinking.className = 'chat-msg thinking';
+      confirmThinking.textContent = 'در حال انجام عملیات...';
+      confirmBox.appendChild(confirmThinking);
+      confirmBox.scrollTop = confirmBox.scrollHeight;
+
+      var result = executeChatTool(pending.name, pending.args);
+      chatConversation.push({
+        role:'user',
+        parts:[{functionResponse:{name:pending.name, response:result}}]
+      });
+      saveChatHistory();
+      confirmThinking.remove();
+
+      var finalThinking = document.createElement('div');
+      finalThinking.className = 'chat-msg thinking';
+      finalThinking.textContent = 'در حال فکر کردن...';
+      confirmBox.appendChild(finalThinking);
+      confirmBox.scrollTop = confirmBox.scrollHeight;
+      runAgentLoop(0, finalThinking, confirmBtn);
+      return;
+    }
+
+    if(isExplicitChatCancellation(text)){
+      pendingDangerousCall = null;
+      chatConversation.push({role:'user', parts:[{text:text}]});
+      chatConversation.push({role:'model', parts:[{text:'لغو شد؛ هیچ تغییری در اطلاعات انجام نشد.'}]});
+      saveChatHistory();
+      renderChatMessages();
+      return;
+    }
+
+    // پاسخ مبهم: عملیات اجرا نمی‌شود.
+    pendingDangerousCall = null;
+    chatConversation.push({role:'user', parts:[{text:text}]});
+    chatConversation.push({role:'model', parts:[{text:'تأیید واضح دریافت نشد؛ عملیات لغو شد و هیچ تغییری در اطلاعات انجام نشد.'}]});
+    saveChatHistory();
+    renderChatMessages();
+    return;
+  }
+
+  chatConversation.push({role:'user', parts:[{text:text}]});
+  saveChatHistory();
+  renderChatMessages();
+
+  var sendBtn = $('chatSendBtn');
+  sendBtn.disabled = true;
+
+  var box = $('chatMessages');
+  var thinkingEl = document.createElement('div');
+  thinkingEl.className = 'chat-msg thinking';
+  thinkingEl.textContent = 'در حال فکر کردن...';
+  box.appendChild(thinkingEl);
+  box.scrollTop = box.scrollHeight;
+
+  runAgentLoop(0, thinkingEl, sendBtn);
+}
+
+function runAgentLoop(depth, thinkingEl, sendBtn, retryCount){
+  retryCount = retryCount || 0;
+  if(depth > 6){
+    if(thinkingEl) thinkingEl.remove();
+    showChatError('تعداد مراحل عملیات زیاد شد؛ لطفاً درخواست را ساده‌تر یا در چند پیام مطرح کنید.');
+    sendBtn.disabled = false;
+    return;
+  }
+  callGeminiAPI(chatConversation).then(function(data){
+    if(data && data.error){
+      var msg = String(data.error.message || '');
+      var isOverloaded = /overload|high demand|503|unavailable/i.test(msg);
+      if(isOverloaded && retryCount < 3){
+        if(thinkingEl) thinkingEl.textContent = 'سرور شلوغ است، دوباره تلاش می‌کنم... ('+(retryCount+1)+'/3)';
+        setTimeout(function(){ runAgentLoop(depth, thinkingEl, sendBtn, retryCount+1); }, 2000);
+        return;
+      }
+      if(thinkingEl) thinkingEl.remove();
+      showChatError('خطا از سرور: '+(msg || 'کلید API نامعتبر است یا مشکلی پیش آمد'));
+      sendBtn.disabled = false;
+      return;
+    }
+    if(thinkingEl) thinkingEl.remove();
+    var candidate = data && Array.isArray(data.candidates) ? data.candidates[0] : null;
+    var parts = candidate && candidate.content && candidate.content.parts;
+    if(!parts || !parts.length){
+      showChatError('پاسخی دریافت نشد. دوباره تلاش کنید.');
+      sendBtn.disabled = false;
+      return;
+    }
+
+    chatConversation.push({role:'model', parts: parts});
+    saveChatHistory();
+    renderChatMessages();
+
+    var funcCalls = parts.filter(function(p){ return !!p.functionCall; });
+
+    if(!funcCalls.length){
+      sendBtn.disabled = false;
+      return; // پاسخ نهایی متنی بود، تمام
+    }
+
+    var box = $('chatMessages');
+    var busyEl = document.createElement('div');
+    busyEl.className = 'chat-msg thinking';
+    busyEl.textContent = 'در حال انجام عملیات...';
+    box.appendChild(busyEl);
+    box.scrollTop = box.scrollHeight;
+
+    // عملیات خطرناک را قبل از اجرا متوقف می‌کنیم و منتظر پیام صریح بعدی کاربر می‌مانیم.
+    var dangerousCall = null;
+    for(var di=0; di<funcCalls.length; di++){
+      var dn = funcCalls[di].functionCall.name;
+      if(dn==='delete_account' || dn==='delete_transaction' || dn==='restore_backup'){
+        dangerousCall = funcCalls[di].functionCall;
+        break;
+      }
+    }
+
+    if(dangerousCall){
+      pendingDangerousCall = {
+        name: dangerousCall.name,
+        args: dangerousCall.args || {}
+      };
+
+      var warning = '⚠️ برای اجرای «'+dangerousToolLabel(dangerousCall.name)+'» تأیید صریح لازم است.';
+      if(dangerousCall.name==='delete_account' && dangerousCall.args && dangerousCall.args.account_name){
+        warning += '\nحساب «'+String(dangerousCall.args.account_name)+'» و تمام معاملاتش حذف می‌شود.';
+      } else if(dangerousCall.name==='delete_transaction' && dangerousCall.args){
+        warning += '\nمعامله شماره '+String(dangerousCall.args.transaction_index||'')+' از حساب «'+String(dangerousCall.args.account_name||'')+'» حذف می‌شود.';
+      } else if(dangerousCall.name==='restore_backup'){
+        warning += '\nتمام داده‌های فعلی با اطلاعات بکاپ جایگزین می‌شود.';
+      }
+      warning += '\nاگر مطمئن هستی بنویس «بله» یا «تایید». برای لغو «نه» بنویس.';
+
+      chatConversation.push({role:'model', parts:[{text:warning}]});
+      saveChatHistory();
+      renderChatMessages();
+      busyEl.remove();
+      sendBtn.disabled = false;
+      return;
+    }
+
+    var responseParts = funcCalls.map(function(fc){
+      var result = executeChatTool(fc.functionCall.name, fc.functionCall.args || {});
+      return { functionResponse: { name: fc.functionCall.name, response: result } };
+    });
+
+    chatConversation.push({role:'user', parts: responseParts});
+    saveChatHistory();
+
+    busyEl.remove();
+    var thinkingEl2 = document.createElement('div');
+    thinkingEl2.className = 'chat-msg thinking';
+    thinkingEl2.textContent = 'در حال فکر کردن...';
+    box.appendChild(thinkingEl2);
+    box.scrollTop = box.scrollHeight;
+
+    runAgentLoop(depth+1, thinkingEl2, sendBtn);
+  }).catch(function(err){
+    if(thinkingEl) thinkingEl.remove();
+    showChatError('خطا در ارتباط. اتصال اینترنت را بررسی کنید.');
+    sendBtn.disabled = false;
+  });
+}
+
+function showChatError(msg){
+  var box = $('chatMessages');
+  var errEl = document.createElement('div');
+  errEl.className = 'chat-msg error';
+  errEl.textContent = msg;
+  box.appendChild(errEl);
+  box.scrollTop = box.scrollHeight;
+}
+
+// ========================== قفل برنامه (PIN) ==========================
+function hashPin(pin){
+  if(window.crypto && window.crypto.subtle){
+    var enc = new TextEncoder().encode('khsalt_'+pin);
+    return crypto.subtle.digest('SHA-256', enc).then(function(buf){
+      return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+    });
+  }
+  // در صورت نبود Web Crypto (مرورگرهای بسیار قدیمی)، یک هش ساده جایگزین
+  var s = 'khsalt_'+pin, h=0;
+  for(var i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) >>> 0; }
+  return Promise.resolve('fb'+h.toString(16));
+}
+
+function initLock(){
+  var hash = localStorage.getItem('khatabook_pin_hash');
+  $('lockScreen').classList.remove('hidden');
+  if(hash) renderLockEntry(); else renderLockSetup();
+}
+function hideLock(){ $('lockScreen').classList.add('hidden'); }
+function lockNow(){ $('lockScreen').classList.remove('hidden'); renderLockEntry(); }
+
+function renderLockSetup(){
+  $('lockBox').innerHTML =
+    '<h2>🔒 تنظیم رمز عبور</h2>'+
+    '<p>یک رمز ۴ تا ۶ رقمی برای محافظت از این برنامه تعیین کنید</p>'+
+    '<input id="pin1" type="password" inputmode="numeric" maxlength="6" placeholder="رمز جدید">'+
+    '<input id="pin2" type="password" inputmode="numeric" maxlength="6" placeholder="تکرار رمز">'+
+    '<div class="lock-msg" id="lockMsg"></div>'+
+    '<button id="lockSetupBtn">ثبت رمز</button>';
+  $('lockSetupBtn').onclick = submitLockSetup;
+  var enterHandler = function(e){ if(e.key==='Enter') submitLockSetup(); };
+  $('pin1').addEventListener('keydown', enterHandler);
+  $('pin2').addEventListener('keydown', enterHandler);
+  setTimeout(function(){ var el=$('pin1'); if(el) el.focus(); }, 200);
+}
+
+function submitLockSetup(){
+  var p1 = $('pin1').value.trim(), p2 = $('pin2').value.trim();
+  if(!/^\d{4,6}$/.test(p1)){ $('lockMsg').textContent='رمز باید ۴ تا ۶ رقم باشد'; return; }
+  if(p1!==p2){ $('lockMsg').textContent='رمزها یکسان نیستند'; return; }
+  hashPin(p1).then(function(h){
+    localStorage.setItem('khatabook_pin_hash', h);
+    hideLock();
+    toast('✅ رمز تنظیم شد','success');
+  });
+}
+
+function renderLockEntry(){
+  $('lockBox').innerHTML =
+    '<h2>🔒 دفتر قفل است</h2>'+
+    '<input id="pinEntry" type="password" inputmode="numeric" maxlength="6" placeholder="رمز را وارد کنید">'+
+    '<div class="lock-msg" id="lockMsg"></div>'+
+    '<button id="lockEntryBtn">باز کردن</button>'+
+    '<div class="lock-sub">رمز را فراموش کرده‌اید؟ <a id="resetLockLink">بازنشانی رمز</a></div>';
+  $('lockEntryBtn').onclick = submitLockEntry;
+  $('resetLockLink').onclick = confirmResetLock;
+  var el = $('pinEntry');
+  el.addEventListener('keydown', function(e){ if(e.key==='Enter') submitLockEntry(); });
+  setTimeout(function(){ el.focus(); }, 200);
+}
+
+function submitLockEntry(){
+  var p = $('pinEntry').value.trim();
+  var hash = localStorage.getItem('khatabook_pin_hash');
+  hashPin(p).then(function(h){
+    if(h===hash){ hideLock(); }
+    else { $('lockMsg').textContent='رمز اشتباه است'; $('pinEntry').value=''; $('pinEntry').focus(); }
+  });
+}
+
+function confirmResetLock(){
+  if(confirm('⚠️ بازنشانی، رمز فعلی را پاک می‌کند (داده‌های حساب‌ها دست‌نخورده می‌مانند). آیا مطمئن هستید؟')){
+    localStorage.removeItem('khatabook_pin_hash');
+    renderLockSetup();
+  }
+}
+
+function changePin(){
+  var hash = localStorage.getItem('khatabook_pin_hash');
+  if(!hash){ toast('هنوز رمزی تنظیم نشده؛ از دکمه 🔒 قفل استفاده کنید','error'); return; }
+  modal('<h3>🔑 تغییر رمز عبور</h3>'+
+    '<label>رمز فعلی</label><input id="oldPin" type="password" inputmode="numeric" maxlength="6" dir="ltr">'+
+    '<label>رمز جدید</label><input id="newPin1" type="password" inputmode="numeric" maxlength="6" dir="ltr">'+
+    '<label>تکرار رمز جدید</label><input id="newPin2" type="password" inputmode="numeric" maxlength="6" dir="ltr">'+
+    '<div class="buttons"><button class="cancel" onclick="closeModal()">لغو</button><button class="confirm" id="savePinBtn">ذخیره</button></div>');
+  $('savePinBtn').onclick = function(){
+    var op=$('oldPin').value.trim(), n1=$('newPin1').value.trim(), n2=$('newPin2').value.trim();
+    hashPin(op).then(function(oh){
+      if(oh!==hash){ toast('رمز فعلی اشتباه است','error'); return; }
+      if(!/^\d{4,6}$/.test(n1)){ toast('رمز جدید باید ۴ تا ۶ رقم باشد','error'); return; }
+      if(n1!==n2){ toast('رمزهای جدید یکسان نیستند','error'); return; }
+      hashPin(n1).then(function(nh){
+        localStorage.setItem('khatabook_pin_hash', nh);
+        closeModal();
+        toast('✅ رمز تغییر کرد','success');
+      });
+    });
+  };
+  setTimeout(function(){ var el=$('oldPin'); if(el) el.focus(); }, 200);
+}
+
+loadChatHistory();
+load();
+render();
+initLock();
+</script>
+</body>
+</html>
